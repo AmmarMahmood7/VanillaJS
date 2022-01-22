@@ -43,8 +43,8 @@ let author = document.querySelector("#author");
 let job = document.querySelector("#job");
 let info = document.querySelector("#info");
 
-const prevbtn =  document.querySelector(".prev-btn");
-const nextbtn =  document.querySelector(".next-btn");
+const prevBtn =  document.querySelector(".prev-btn");
+const nextBtn =  document.querySelector(".next-btn");
 const surprise = document.querySelector(".random-btn");
 
 
@@ -64,7 +64,7 @@ surprise.addEventListener('click',function(){
 
 //show next person
 
-nextbtn.addEventListener('click',function(){
+nextBtn.addEventListener('click',function(){
 
   currentItem++;
   if(currentItem > reviews.length -1){
@@ -74,7 +74,7 @@ nextbtn.addEventListener('click',function(){
 })
 
 //show prev person
-prevbtn.addEventListener('click',function(){
+prevBtn.addEventListener('click',function(){
 
   currentItem--;
   if(currentItem < 0){
