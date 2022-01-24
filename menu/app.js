@@ -70,17 +70,56 @@ const menu = [{
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "Steak dinner",
+    category: "dinner",
+    price: 39.99,
+    img: "./images/item-10.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
 ];
 
 const sectionCenter = document.querySelector('.section-center')
+const filterBtns = document.querySelectorAll(".filter-btn");
 
+//load items
 window.addEventListener('DOMContentLoaded', function () {
 
   displaymenuItems(menu)
-  
+
 })
 
-function displaymenuItems(menuItems){
+
+// filter items
+filterBtns.forEach(function (btn) {
+  btn.addEventListener('click', function (e) {
+
+    const category = e.currentTarget.dataset.id;
+    const menuCategory = menu.filter(function (menuItem) {
+
+      if (menuItem.category === category) {
+        return menuItem;
+      }
+ 
+    })
+    //console.log(menuCategory);
+
+    // call displaymenuitems passing the original array for 'all categories'
+    // and the new filtered array menuCategory for the items which are filtered
+    // based on the dataset id
+
+    if (category === 'all') {
+      displaymenuItems(menu);
+
+    } else {
+      displaymenuItems(menuCategory)
+    }
+  })
+})
+
+
+function displaymenuItems(menuItems) {
 
   let displayMenu = menuItems.map(function (item) {
 
@@ -98,6 +137,6 @@ function displaymenuItems(menuItems){
 
   displayMenu = displayMenu.join('');
   sectionCenter.innerHTML = displayMenu
-  console.log(displayMenu);
+  //console.log(displayMenu);
 
 }
