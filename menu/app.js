@@ -80,44 +80,26 @@ const menu = [{
   },
 ];
 
-const sectionCenter = document.querySelector('.section-center')
-const filterBtns = document.querySelectorAll(".filter-btn");
 
+
+const sectionCenter = document.querySelector('.section-center')
+
+const btnContainer = document.querySelector('.btn-container')
 //load items
 window.addEventListener('DOMContentLoaded', function () {
 
   displaymenuItems(menu)
+  displayMenuButtons()
+
 
 })
 
 
 // filter items
-filterBtns.forEach(function (btn) {
-  btn.addEventListener('click', function (e) {
-
-    const category = e.currentTarget.dataset.id;
-    const menuCategory = menu.filter(function (menuItem) {
-
-      if (menuItem.category === category) {
-        return menuItem;
-      }
- 
-    })
-    //console.log(menuCategory);
-
-    // call displaymenuitems passing the original array for 'all categories'
-    // and the new filtered array menuCategory for the items which are filtered
-    // based on the dataset id
-
-    if (category === 'all') {
-      displaymenuItems(menu);
-
-    } else {
-      displaymenuItems(menuCategory)
-    }
-  })
-})
-
+// even though the buttons have the filter-btns class we cant grab it
+// since now the buttons are created dynamically using template String.
+// our nodelist will be empty
+// so we can target them once they're added to the DOM
 
 function displaymenuItems(menuItems) {
 
@@ -138,5 +120,61 @@ function displaymenuItems(menuItems) {
   displayMenu = displayMenu.join('');
   sectionCenter.innerHTML = displayMenu
   //console.log(displayMenu);
+
+}
+
+function displayMenuButtons() {
+
+  // const categories = menu.map(function(item){
+
+  //   return item.category
+  // })
+  // //using es6 SET object on the new mapped array of categories we can grab 
+  // //distinct values of the array
+  // // const distinctCategory =[...new Set(categories)]
+
+  const categories = menu.reduce(function (values, item) {
+
+    if (!values.includes(item.category)) {
+      values.push(item.category)
+    }
+    return values
+  }, ['all']);
+
+  const categoryBtns = categories.map(function (category) {
+
+    return `<button class="filter-btn" type="button" data-id = ${category}>${category}</button>`
+  }).join('')
+  btnContainer.innerHTML = categoryBtns;
+
+  //selecting filterbtns right after its loaded in the DOM
+  const filterBtns = btnContainer.querySelectorAll(".filter-btn");
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+
+      const category = e.currentTarget.dataset.id;
+      const menuCategory = menu.filter(function (menuItem) {
+
+        if (menuItem.category === category) {
+          return menuItem;
+        }
+
+      })
+      //console.log(menuCategory);
+
+      // call displaymenuitems passing the original array for 'all categories'
+      // and the new filtered array menuCategory for the items which are filtered
+      // based on the dataset id
+
+      if (category === 'all') {
+        displaymenuItems(menu);
+
+      } else {
+        displaymenuItems(menuCategory)
+      }
+    })
+  })
+
+
 
 }
